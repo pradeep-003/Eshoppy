@@ -3,17 +3,7 @@ const connectDatabase = require("./db/Database");
 const cloudinary = require("cloudinary");
 const path = require("path");
 
-const __dirname1 = path.resolve();
-if(process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname1, "/frontend/build")));
-  app.get('*', (req, res)=> {
-    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
-  });
-}else {
-  app.get("/", (req, res) => {
-    res.send("API running successfully");
-  });
-}
+
 
 // Handling uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -36,6 +26,19 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 })
+
+
+const __dirname1 = path.resolve();
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+  app.get('*', (req, res)=> {
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+  });
+}else {
+  app.get("/", (req, res) => {
+    res.send("API running successfully");
+  });
+}
 
 
 // create server
