@@ -1,6 +1,19 @@
 const app = require("./app");
 const connectDatabase = require("./db/Database");
 const cloudinary = require("cloudinary");
+const path = require("path");
+
+const __dirname1 = path.resolve();
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+  app.get('*', (req, res)=> {
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+  });
+}else {
+  app.get("/", (req, res) => {
+    res.send("API running successfully");
+  });
+}
 
 // Handling uncaught Exception
 process.on("uncaughtException", (err) => {
